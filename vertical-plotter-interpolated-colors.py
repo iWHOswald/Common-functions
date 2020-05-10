@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from colour import Color
 import matplotlib as mpl
 
+##### this function plots a vertical bar graph with a color gradient interpolated between two colors.
 
 def PlotBar(file):
 
