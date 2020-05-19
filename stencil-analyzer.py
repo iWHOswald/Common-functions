@@ -1,6 +1,7 @@
 import re
 import pandas as pd
 
+
 stencil_list = []
 stencil_points = []
 stencil_location = []
@@ -8,11 +9,10 @@ stencil_all_points = []
 all_avg_coords = []
 point_out2 = []
 all_avg_coords_time = []
+
+# print dataframe.
 all_points = []
-
-# this function does everything. to run it, goto bottom, and change the file name in the last line.
-
-def stencil_analyzer(stencil):
+def stencil_analyzer(stencil,time):
     for i, line in enumerate(open(stencil,encoding='utf-8-sig')): # input your file - save your stencil as a TXT
         for match in re.finditer('<ROI name="(.+?)" st', line): # find the names of compounds
             stencil_list.append(str(match.group())[11:-4])  #store names in list
@@ -41,7 +41,7 @@ def stencil_analyzer(stencil):
                 avg_coords = (float(point_out2[i*4]) + float(point_out2[(i*4)+1])) / 2
                 all_avg_coords.append(avg_coords)
 
-        avg_coords_time = avg_coords * 60
+        avg_coords_time = avg_coords * time
         all_avg_coords_time.append(avg_coords_time)
 
     df = pd.DataFrame(stencil_list, columns=['Compound name'])
@@ -51,4 +51,5 @@ def stencil_analyzer(stencil):
     df.insert(3, "avg RT", all_avg_coords_time, True)
     df.to_csv(str(stencil) + '.csv',encoding='utf-8-sig')
 
-stencil_analyzer("TEST_STENCFULL2.txt") # simply type in your txt file here. will save the file with same name as stencil 
+stencil_analyzer("TEST_STENCFULL2.txt", 60) # simply type in your txt file here, and change the second value to what the total time of your scan is.
+#  will save the file with same name as stencil
